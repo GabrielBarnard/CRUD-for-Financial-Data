@@ -25,11 +25,12 @@ void FileSelectionWindow::on_pushButton_clicked() {
 
     if (filePath.endsWith(".csv", Qt::CaseInsensitive) && QFile::exists(filePath)) {
         // Creates a new CSVwindow
-        CSVwindow *csvWindow = new CSVwindow();
+        CSVwindow *csvWindow = new CSVwindow(filePath.toStdString());
         csvWindow->setWindowIcon(QIcon(":/appIcon.ico"));
         csvWindow->show();
         this->close();
     } else if (filePath.endsWith(".db", Qt::CaseInsensitive)) {
+        // Creates a new SQLwindow
         SQLwindow *sqlWindow = new SQLwindow();
         sqlWindow->setWindowIcon(QIcon(":/appIcon.ico"));
         sqlWindow->show();

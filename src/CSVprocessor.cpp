@@ -11,7 +11,7 @@
 
 #include "../inc/CSVprocessor.hpp"
 
-CSVprocessor::CSVprocessor(const std::string filePath) {
+CSVprocessor::CSVprocessor(const std::string &filePath) {
     loadData(filePath);
 }
 
@@ -19,7 +19,7 @@ CSVprocessor::~CSVprocessor(void) {
 	writeData();
 }
 
-void CSVprocessor::crudCreate(const Stock userInput) {
+void CSVprocessor::crudCreate(const Stock &userInput) {
 
 }
 

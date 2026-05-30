@@ -84,8 +84,8 @@ void CSVwindow::on_pushButton_2_clicked() {
         std::string date = ss.str();
 
         // Add the stock to the Qt List
-        // Formatting of this line has no impact on output, its purely aesthetic
-        stocksList << QString("Stock ID: %1 | Stock Name: %2 | Stock Price: %3| Entry Date: %4")
+        // Formatting of this line has no impact on output, it's purely aesthetic
+        stocksList << QString("Stock ID: %1 | Stock Name: %2 | Stock Price: %3 | Entry Date: %4")
                           .arg(stock.id)
                           .arg(QString::fromStdString(stock.name))
                           .arg(stock.price)
@@ -96,4 +96,12 @@ void CSVwindow::on_pushButton_2_clicked() {
     QStringListModel *model = new QStringListModel(this);
     model->setStringList(stocksList);
     ui->listView->setModel(model);
+}
+
+// Update
+// void CSVwindow::on_pushButton_3_clicked() {}
+
+// Delete
+void CSVwindow::on_pushButton_4_clicked() {
+    csvProcessor->crudDelete(fetchUserInput());
 }

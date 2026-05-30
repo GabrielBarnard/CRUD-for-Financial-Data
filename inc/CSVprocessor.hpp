@@ -19,12 +19,12 @@ class CSVprocessor {
             int price{}; // TODO: Update to double
         };
 
-        void crudCreate(const Stock userInput);
-        const std::vector<Stock> crudRead(const Stock userInput);
+        void crudCreate(const Stock &userInput);
+        const std::vector<Stock> crudRead(const Stock &userInput);
         void crudUpdate(const Stock &userInput);
         void crudDelete(const Stock &userInput);
 	
-        CSVprocessor(const std::string filePath);
+        CSVprocessor(const std::string &filePath);
 		~CSVprocessor(void);
     private:
         std::unordered_map<int, Stock> stocks;

@@ -99,7 +99,9 @@ void CSVwindow::on_pushButton_2_clicked() {
 }
 
 // Update
-// void CSVwindow::on_pushButton_3_clicked() {}
+void CSVwindow::on_pushButton_3_clicked() {
+    csvProcessor->crudUpdate(fetchUserInput());
+}
 
 // Delete
 void CSVwindow::on_pushButton_4_clicked() {

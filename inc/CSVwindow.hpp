@@ -23,6 +23,7 @@ class CSVwindow : public QMainWindow {
         explicit CSVwindow(const std::string filePath, QWidget *parent = nullptr);
         ~CSVwindow();
     private slots:
+        void on_pushButton_clicked();
         void on_pushButton_2_clicked();
         void on_pushButton_3_clicked();
         void on_pushButton_4_clicked();

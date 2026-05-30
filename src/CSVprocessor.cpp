@@ -20,7 +20,17 @@ CSVprocessor::~CSVprocessor(void) {
 }
 
 void CSVprocessor::crudCreate(const Stock &userInput) {
+    int entryId{};
 
+    // Searches through the HashTable for the lowest non-occupied Id
+    while (stocks.find(entryId) != stocks.end()) {
+        entryId++;
+    }
+
+    stocks[entryId].id = entryId;
+    stocks[entryId].name = userInput.name;
+    stocks[entryId].price = userInput.price;
+    stocks[entryId].entryDate = userInput.entryDate;
 }
 
 const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userInput) {

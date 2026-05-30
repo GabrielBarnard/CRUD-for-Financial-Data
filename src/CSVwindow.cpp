@@ -65,6 +65,11 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
     return stock;
 }
 
+// Create
+void CSVwindow::on_pushButton_clicked() {
+    csvProcessor->crudCreate(fetchUserInput());
+}
+
 // Read
 void CSVwindow::on_pushButton_2_clicked() {
     std::vector<CSVprocessor::Stock> stocks {csvProcessor->crudRead(fetchUserInput())};
@@ -72,7 +77,7 @@ void CSVwindow::on_pushButton_2_clicked() {
     QStringList stocksList{};
     for (const auto &stock : stocks) {
         // Converts the stock's date to a string
-        struct std::tm* tm{std::gmtime(&stock.entryDate)}; // Uses UTC (Greenwich Mean Time)
+        struct std::tm* tm{std::localtime(&stock.entryDate)};
 
         std::ostringstream ss{};
         ss << std::put_time(tm, "%Y-%m-%d");

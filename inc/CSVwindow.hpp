@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "../inc/CSVprocessor.hpp"
+
 #include <QMainWindow>
 
 #include <string>
@@ -17,9 +19,15 @@ QT_END_NAMESPACE
 
 class CSVwindow : public QMainWindow {
     Q_OBJECT
-public:
-    explicit CSVwindow(const std::string filePath, QWidget *parent = nullptr);
-    ~CSVwindow();
-private:
-    Ui::CSVwindow *ui;
+    public:
+        explicit CSVwindow(const std::string filePath, QWidget *parent = nullptr);
+        ~CSVwindow();
+    private slots:
+        void on_pushButton_2_clicked();
+    private:
+        Ui::CSVwindow *ui;
+
+        std::unique_ptr<CSVprocessor> csvProcessor;
+
+        CSVprocessor::Stock fetchUserInput();
 };

@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
 
 #include "../inc/CSVprocessor.hpp"
 
@@ -22,19 +23,42 @@ void CSVprocessor::crudCreate(const Stock userInput) {
 
 }
 
-const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock userInput) {
-	return {};
+const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userInput) {
+    if (userInput.id == -1) { // Returns all stocks in HashTable (user left stockID empty)
+        std::vector<CSVprocessor::Stock> stocksToReturn;
+        std::vector<int> keys;
+
+        for (const auto &[key, stock] : stocks) {
+            keys.push_back(key);
+        }
+
+        std::sort(keys.begin(), keys.end());
+
+        for (const auto &key : keys) {
+            stocksToReturn.push_back(stocks.at(key));
+        }
+
+        return stocksToReturn;
+
+    } else {                  // Returns one stock in HashTable (user put a number in stockID
+        CSVprocessor::Stock stockToReturn = stocks.at(userInput.id);
+        return {stockToReturn};
+    }
+
+    return {}; // Should not trigger unless something goes wrong
 }
 
-void CSVprocessor::crudUpdate(const Stock userInput) {
-
+void CSVprocessor::crudUpdate(const Stock &userInput) {
+    stocks[userInput.id].name = userInput.name;
+    stocks[userInput.id].entryDate = userInput.entryDate;
+    stocks[userInput.id].price = userInput.price;
 }
 
-void CSVprocessor::crudDelete(const Stock userInput) {
-
+void CSVprocessor::crudDelete(const Stock &userInput) {
+    stocks.erase(userInput.id);
 }
 
-void CSVprocessor::loadData(const std::string filePath) {
+void CSVprocessor::loadData(const std::string &filePath) {
     // Opens an input file stream to the CSV file and verifies that it opened successfully
     std::ifstream inputStream(filePath);
     if (!inputStream.is_open()) {

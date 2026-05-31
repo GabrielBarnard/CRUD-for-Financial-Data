@@ -39,7 +39,7 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
         ss >> std::get_time(&tm, "%Y-%m-%d");
 
         if (ss.fail()) {
-            ui->lineEdit_4->setText("Format: 1970-01-01");
+            ui->lineEdit->setText("Format: 1970-01-01");
             return CSVprocessor::Stock{};
         }
 
@@ -74,7 +74,31 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
 
 // Create
 void CSVwindow::on_pushButton_clicked() {
-    csvProcessor->crudCreate(fetchUserInput());
+    CSVprocessor::Stock userInputStock{fetchUserInput()};
+    bool isUserInputInvalid{false};
+
+    // Validates user input by checking if stock's name, price, or entry date is empty
+    if (userInputStock.id != -1) {
+        ui->lineEdit_2->setText("ID not permitted");
+    }
+    if (userInputStock.name == "") {
+        ui->lineEdit_3->setText("Name required");
+        isUserInputInvalid = true;
+    }
+    if (userInputStock.price == -1) {
+        ui->lineEdit_4->setText("Price required");
+        isUserInputInvalid = true;
+    }
+    if (userInputStock.entryDate == time_t{}) {
+        ui->lineEdit->setText("Date required");
+        isUserInputInvalid = true;
+    }
+
+    if (isUserInputInvalid) {
+        return;
+    }
+
+    csvProcessor->crudCreate(userInputStock);
 }
 
 // Read

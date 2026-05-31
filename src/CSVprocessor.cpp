@@ -47,7 +47,9 @@ const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userI
 
         return stocksToReturn;
 
-    } else {                  // Returns one stock in HashTable (user put a number in stockID
+    } else if (stocks.find(userInput.id) == stocks.end()) {
+        throw std::runtime_error("Invalid Stock ID");
+    } else {                  // Returns one stock in HashTable
         CSVprocessor::Stock stockToReturn = stocks.at(userInput.id);
         return {stockToReturn};
     }

@@ -39,7 +39,7 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
         ss >> std::get_time(&tm, "%Y-%m-%d");
 
         if (ss.fail()) {
-            ui->lineEdit->setText("Incorrect Format. Must be 1970-01-01");
+            ui->lineEdit_4->setText("Format: 1970-01-01");
             return CSVprocessor::Stock{};
         }
 
@@ -54,8 +54,8 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
     } else {
         try {
             stock.id = std::stoi(ui->lineEdit_2->text().toStdString());
-        } catch (const std::exception) {
-            ui->lineEdit->setText("ID may only contain numbers and must be 0 or greater.");
+        } catch (...) {
+            ui->lineEdit_2->setText("Invalid Stock ID");
         }
     }
 
@@ -79,8 +79,31 @@ void CSVwindow::on_pushButton_clicked() {
 
 // Read
 void CSVwindow::on_pushButton_2_clicked() {
-    std::vector<CSVprocessor::Stock> stocks {csvProcessor->crudRead(fetchUserInput())};
+    CSVprocessor::Stock userInputStock{fetchUserInput()};
+    std::vector<CSVprocessor::Stock> stocks{};
 
+    // Validate user input.
+    if (userInputStock.name != "") {
+        ui->lineEdit_3->setText("Stock ID only");
+        return;
+    }
+    if (userInputStock.price != -1) {
+        ui->lineEdit_4->setText("Stock ID only");
+        return;
+    }
+    if (userInputStock.entryDate != time_t{}) {
+        ui->lineEdit->setText("Stock ID only");
+        return;
+    }
+
+    try {
+        stocks = csvProcessor->crudRead(userInputStock);
+    } catch (...) {
+        ui->lineEdit_2->setText("Invalid Stock ID");
+        return;
+    }
+
+    // Move all stocks into QStringList
     QStringList stocksList{};
     for (const auto &stock : stocks) {
         // Converts stock.entryDate to a string

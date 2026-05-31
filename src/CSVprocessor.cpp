@@ -58,6 +58,10 @@ const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userI
 }
 
 void CSVprocessor::crudUpdate(const Stock &userInput) {
+    if (stocks.find(userInput.id) == stocks.end()) {
+        throw std::runtime_error("Invalid Stock ID");
+    }
+
     stocks[userInput.id].name = userInput.name;
     stocks[userInput.id].entryDate = userInput.entryDate;
     stocks[userInput.id].price = userInput.price;

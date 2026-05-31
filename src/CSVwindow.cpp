@@ -140,7 +140,14 @@ void CSVwindow::on_pushButton_2_clicked() {
 
 // Update
 void CSVwindow::on_pushButton_3_clicked() {
-    csvProcessor->crudUpdate(fetchUserInput());
+    CSVprocessor::Stock userInputStock{fetchUserInput()};
+
+    try {
+        csvProcessor->crudUpdate(userInputStock);
+    } catch (...) {
+        ui->lineEdit_2->setText("Invalid Stock ID");
+        return;
+    }
 }
 
 // Delete

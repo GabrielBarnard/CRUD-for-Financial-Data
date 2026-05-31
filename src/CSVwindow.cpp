@@ -28,7 +28,6 @@ void CSVwindow::closeEvent(QCloseEvent *event) {
     event->accept();
 }
 
-// TODO: Validate user input in this function
 CSVprocessor::Stock CSVwindow::fetchUserInput() {
     CSVprocessor::Stock stock;
 

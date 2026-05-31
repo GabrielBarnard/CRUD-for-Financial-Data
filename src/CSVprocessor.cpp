@@ -75,6 +75,7 @@ void CSVprocessor::crudDelete(const Stock &userInput) {
     stocks.erase(userInput.id);
 }
 
+// TODO: Input more file validation here, and better handling in CSVwindow
 void CSVprocessor::loadData(const std::string &filePath) {
     // Opens an input file stream to the CSV file and verifies that it opened successfully
     std::ifstream inputStream(filePath);
@@ -88,8 +89,6 @@ void CSVprocessor::loadData(const std::string &filePath) {
         // If there is a carriage return (windows-style CSV), removes it
         if (line.back() == '\r') {
             line.pop_back();
-        } else {
-            // Deliberate NOP (No Operation)
         }
 
         std::vector<std::string> parts{};
@@ -110,15 +109,14 @@ void CSVprocessor::loadData(const std::string &filePath) {
         stock.name = parts[1];
         stock.price = std::stoi(parts[2]);
 
+        // Convert string to time_t date
         struct std::tm tm{};
         std::istringstream ss(parts[3]);
         ss >> std::get_time(&tm, "%Y-%m-%d");
 
         if (ss.fail()) {
-            throw std::runtime_error("Error loading CSV file. Likely an issue with CSV file formatting");
+            throw std::runtime_error("An error occured in loadData() when translating a string to time_t.");
         }
-
-        //TODO: Implement validation logic for the csv file
 
         stock.entryDate = std::mktime(&tm);
 

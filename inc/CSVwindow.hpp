@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Made on the 21st of May 2026
+ * Updated on the 31st of May 2026
  */
 
 #pragma once
@@ -8,6 +8,7 @@
 #include "../inc/CSVprocessor.hpp"
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 #include <string>
 
@@ -33,4 +34,6 @@ class CSVwindow : public QMainWindow {
         std::unique_ptr<CSVprocessor> csvProcessor;
 
         CSVprocessor::Stock fetchUserInput();
+    protected:
+        void closeEvent(QCloseEvent *event);
 };

@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 29th of May 2026
+ * Updated on the 31st of May 2026
  */
 
 #pragma once
@@ -23,11 +23,13 @@ class CSVprocessor {
         const std::vector<Stock> crudRead(const Stock &userInput);
         void crudUpdate(const Stock &userInput);
         void crudDelete(const Stock &userInput);
-	
+
+        void close(void);
+
         CSVprocessor(const std::string &filePath);
-		~CSVprocessor(void);
     private:
+        void writeData(const std::string &filePath);
+        const std::string filePath;
         std::unordered_map<int, Stock> stocks;
         void loadData(const std::string &filePath);
-        void writeData(void);
 };

@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 29th of May 2026
+ * Updated on the 31st of May 2026
  */
 
 #include <cstdlib>
@@ -8,15 +8,12 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
+#include <cstdio>
 
 #include "../inc/CSVprocessor.hpp"
 
-CSVprocessor::CSVprocessor(const std::string &filePath) {
-    loadData(filePath);
-}
-
-CSVprocessor::~CSVprocessor(void) {
-	writeData();
+CSVprocessor::CSVprocessor(const std::string &filePath) : filePath(filePath) {
+    loadData(CSVprocessor::filePath);
 }
 
 void CSVprocessor::crudCreate(const Stock &userInput) {
@@ -111,6 +108,8 @@ void CSVprocessor::loadData(const std::string &filePath) {
             throw std::runtime_error("Error loading CSV file. Likely an issue with CSV file formatting");
         }
 
+        //TODO: Implement validation logic for the csv file
+
         stock.entryDate = std::mktime(&tm);
 
         stocks[stock.id] = stock;
@@ -119,6 +118,43 @@ void CSVprocessor::loadData(const std::string &filePath) {
     inputStream.close();
 }
 
-void CSVprocessor::writeData(void) {
+void CSVprocessor::close(void) {
+    writeData(filePath);
+}
 
+void CSVprocessor::writeData(const std::string &filePath) {
+    std::string tempFilePath{filePath + ".temp"};
+
+    std::ofstream outputStream(tempFilePath);
+    if (!outputStream.is_open()) {
+        throw std::runtime_error("An error occured when calling CSVprocessor's destructor. Unable to open temporary.csv file.");
+    }
+
+    for (const auto &[key, stock] : stocks) {
+        // Converts stock.entryDate to a string
+        struct std::tm* tm{std::localtime(&stock.entryDate)};
+
+        std::ostringstream ss{};
+        ss << std::put_time(tm, "%Y-%m-%d");
+
+        if (ss.fail()) {
+            throw std::runtime_error("An error occured when translating time_t stock.entryDate to String in writeData(std::string filePath)");
+        }
+
+        std::string date = ss.str();
+
+        outputStream << stock.id << ',' << stock.name << ',' << stock.price << ',' << date << '\n';
+    }
+
+    outputStream.close();
+
+    // Adds .backup to the end of the original file
+    if (std::rename(filePath.c_str(), (filePath + ".backup").c_str())) {
+        throw std::runtime_error("An error occured when remaining .csv.temp to .csv in writeData(std::string filePath)");
+    }
+
+    // Renames the .csv.temp file to the original file name
+    if (std::rename(tempFilePath.c_str(), filePath.c_str())) {
+        throw std::runtime_error("An error occured when remaining .csv.temp to .csv in writeData(std::string filePath)");
+    }
 }

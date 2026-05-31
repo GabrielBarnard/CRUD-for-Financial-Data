@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 29th of May 2026
+ * Updated on the 31st of May 2026
  */
 
 #include "../inc/CSVwindow.hpp"
@@ -19,6 +19,13 @@ CSVwindow::CSVwindow(const std::string filePath, QWidget *parent) : QMainWindow(
 
 CSVwindow::~CSVwindow() {
     delete ui;
+}
+
+// Handles closing the window
+void CSVwindow::closeEvent(QCloseEvent *event) {
+    // csvProcessor->close() cannot be called in a destructor, so I need to call it here
+    csvProcessor->close();
+    event->accept();
 }
 
 // TODO: Validate user input in this function
@@ -76,7 +83,7 @@ void CSVwindow::on_pushButton_2_clicked() {
 
     QStringList stocksList{};
     for (const auto &stock : stocks) {
-        // Converts the stock's date to a string
+        // Converts stock.entryDate to a string
         struct std::tm* tm{std::localtime(&stock.entryDate)};
 
         std::ostringstream ss{};

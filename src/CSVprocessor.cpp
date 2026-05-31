@@ -64,6 +64,10 @@ void CSVprocessor::crudUpdate(const Stock &userInput) {
 }
 
 void CSVprocessor::crudDelete(const Stock &userInput) {
+    if (stocks.find(userInput.id) == stocks.end()) {
+        throw std::runtime_error("Invalid Stock ID");
+    }
+
     stocks.erase(userInput.id);
 }
 

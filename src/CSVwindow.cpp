@@ -81,18 +81,23 @@ void CSVwindow::on_pushButton_clicked() {
 void CSVwindow::on_pushButton_2_clicked() {
     CSVprocessor::Stock userInputStock{fetchUserInput()};
     std::vector<CSVprocessor::Stock> stocks{};
+    bool isUserInputInvalid{false};
 
     // Validate user input.
     if (userInputStock.name != "") {
         ui->lineEdit_3->setText("Stock ID only");
-        return;
+        isUserInputInvalid = true;
     }
     if (userInputStock.price != -1) {
         ui->lineEdit_4->setText("Stock ID only");
-        return;
+        isUserInputInvalid = true;
     }
     if (userInputStock.entryDate != time_t{}) {
         ui->lineEdit->setText("Stock ID only");
+        isUserInputInvalid = true;
+    }
+
+    if (isUserInputInvalid) {
         return;
     }
 
@@ -140,5 +145,31 @@ void CSVwindow::on_pushButton_3_clicked() {
 
 // Delete
 void CSVwindow::on_pushButton_4_clicked() {
-    csvProcessor->crudDelete(fetchUserInput());
+    CSVprocessor::Stock userInputStock{fetchUserInput()};
+    bool isUserInputInvalid{false};
+
+    // Validate user input.
+    if (userInputStock.name != "") {
+        ui->lineEdit_3->setText("Stock ID only");
+        isUserInputInvalid = true;
+    }
+    if (userInputStock.price != -1) {
+        ui->lineEdit_4->setText("Stock ID only");
+        isUserInputInvalid = true;
+    }
+    if (userInputStock.entryDate != time_t{}) {
+        ui->lineEdit->setText("Stock ID only");
+        isUserInputInvalid = true;
+    }
+
+    if (isUserInputInvalid) {
+        return;
+    }
+
+    try {
+        csvProcessor->crudDelete(userInputStock);
+    } catch (...) {
+        ui->lineEdit_2->setText("Invalid Stock ID");
+        return;
+    }
 }

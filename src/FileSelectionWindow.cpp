@@ -30,11 +30,15 @@ void FileSelectionWindow::on_pushButton_clicked() {
         csvWindow->show();
         this->close();
     } else if (filePath.endsWith(".db", Qt::CaseInsensitive)) {
-        // Creates a new SQLwindow
-        SQLwindow *sqlWindow = new SQLwindow(filePath.toStdString());
-        sqlWindow->setWindowIcon(QIcon(":/appIcon.ico"));
-        sqlWindow->show();
-        this->close();
+        try {
+            // Creates a new SQLwindow
+            SQLwindow *sqlWindow = new SQLwindow(filePath.toStdString());
+            sqlWindow->setWindowIcon(QIcon(":/appIcon.ico"));
+            sqlWindow->show();
+            this->close();
+        } catch (...) {
+            ui->lineEdit->setText("This .db file is invalid.");
+        }
     } else if (!QFile::exists(filePath)) {
         ui->lineEdit->setText("This file does not exist");
     } else {

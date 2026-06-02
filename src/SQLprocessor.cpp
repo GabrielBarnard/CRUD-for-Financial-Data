@@ -8,10 +8,48 @@
 #include <stdexcept>
 
 SQLprocessor::SQLprocessor (const std::string filePath) {
-    // TODO: Validate SQL file here
-
     if (sqlite3_open(filePath.c_str(), &db) != SQLITE_OK) {
         throw std::runtime_error("Unable to open SQLite3 database.");
+    }
+
+    // SQLite .db File Validation
+    // First query - validates if there is a table called "stocks"
+    {
+    const char* sqlQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name = 'stocks'";
+    sqlite3_stmt* statement = nullptr; // The SQL statement
+
+    // Compiles the SQL query into byte-code
+    sqlite3_prepare(db, sqlQuery, -1, &statement, nullptr);
+
+    // Executes the query
+    // sqlite3_STEP returns SQLITE_ROW if the query is successful, SQLITE_DONE if it isn't
+    if (sqlite3_step(statement) == SQLITE_DONE) {
+        sqlite3_finalize(statement);
+        throw std::runtime_error("The table \"stocks\" does not exist");
+    }
+
+    sqlite3_finalize(statement);
+    }
+
+    // Second and final query - validates if the table contains "id", "name", "price", and "date"
+    {
+    const char* sqlQuery = "SELECT COUNT(*) FROM pragma_table_info('stocks') WHERE "
+                           "name IN ('id', 'name', 'price', 'date')";
+    sqlite3_stmt* statement = nullptr; // The SQL statement
+
+    // Compiles the SQL query into byte-code
+    sqlite3_prepare(db, sqlQuery, -1, &statement, nullptr);
+
+    // Executes the query
+    sqlite3_step(statement);
+
+    int columnCount{sqlite3_column_int(statement, 0)}; // Reads the result of the query
+
+    sqlite3_finalize(statement);
+
+    if (columnCount != 4) {
+        throw std::runtime_error("Error. One of the following fields is not present in the .db file: \"id\", \"name\", \"price\", \"date\"");
+    }
     }
 }
 

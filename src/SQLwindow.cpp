@@ -124,3 +124,35 @@ void SQLwindow::on_pushButton_3_clicked() {
 
     sqlProcessor->crudUpdate(userInputStock);
 }
+
+// Delete
+void SQLwindow::on_pushButton_4_clicked() {
+    SQLprocessor::Stock userInputStock{fetchUserInput()};
+
+    // Validates user input by ensuring only the id field is filled out
+    bool isUserInputInvalid{false};
+
+    // Validates user input by checking if stock's name, price, or entry date is empty and if there is an input id
+    if (userInputStock.id == -1) {
+        ui->lineEdit_2->setText("ID required");
+        isUserInputInvalid = true;
+    }
+    if (userInputStock.name != "") {
+        ui->lineEdit_3->setText("ID only");
+        isUserInputInvalid = true;
+    }
+    if (userInputStock.price != -1) {
+        ui->lineEdit_4->setText("ID only");
+        isUserInputInvalid = true;
+    }
+    if (userInputStock.entryDate != "") {
+        ui->lineEdit->setText("ID only");
+        isUserInputInvalid = true;
+    }
+
+    if (isUserInputInvalid) {
+        return;
+    }
+
+    sqlProcessor->crudDelete(userInputStock);
+}

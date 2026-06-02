@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Made on the 21st of May 2026
+ * Updated on the 2nd of June 2026
  */
 
 #include <QFile>

@@ -111,3 +111,16 @@ void SQLwindow::on_pushButton_2_clicked() {
     model->setStringList(stocksList);
     ui->listView->setModel(model);
 }
+
+// Update
+void SQLwindow::on_pushButton_3_clicked() {
+    SQLprocessor::Stock userInputStock{fetchUserInput()};
+
+    // Validates user input by ensuring id field is filled out
+    if (userInputStock.id == -1) {
+        ui->lineEdit_2->setText("ID required");
+        return;
+    }
+
+    sqlProcessor->crudUpdate(userInputStock);
+}

@@ -74,10 +74,31 @@ const std::vector<SQLprocessor::Stock> SQLprocessor::crudRead(const Stock userIn
     return stocks;
 }
 
+// Update
 void SQLprocessor::crudUpdate(const Stock userInput) {
+    const char* sqlQuery = "UPDATE stocks SET "
+                        "name = COALESCE(?1, name), "
+                        "price = COALESCE(?2, price), "
+                        "date = COALESCE(?3, date) "
+                        "WHERE id = ?4";
+    sqlite3_stmt* statement = nullptr;
 
+    // Compiles the SQL query into byte-code
+    sqlite3_prepare(db, sqlQuery, -1, &statement, nullptr);
+
+    // Moves the userInput's values into the SQL query
+    sqlite3_bind_text(statement, 1, userInput.name.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_double(statement, 2, userInput.price);
+    sqlite3_bind_text(statement, 3, userInput.entryDate.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(statement, 4, userInput.id);
+
+    // Executes the query
+    sqlite3_step(statement);
+
+    sqlite3_finalize(statement);
 }
 
+// Delete
 void SQLprocessor::crudDelete(const Stock userInput) {
 
 }

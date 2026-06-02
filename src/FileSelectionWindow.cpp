@@ -31,7 +31,7 @@ void FileSelectionWindow::on_pushButton_clicked() {
         this->close();
     } else if (filePath.endsWith(".db", Qt::CaseInsensitive)) {
         // Creates a new SQLwindow
-        SQLwindow *sqlWindow = new SQLwindow();
+        SQLwindow *sqlWindow = new SQLwindow(filePath.toStdString());
         sqlWindow->setWindowIcon(QIcon(":/appIcon.ico"));
         sqlWindow->show();
         this->close();

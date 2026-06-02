@@ -1,8 +1,9 @@
 # Made by Gabriel Barnard
-# Made on the 21st of May 2026
+# Updated on the 2nd of June 2026
 
 QT += widgets
 CONFIG += c++17 gui
+LIBS += -lsqlite3
 
 HEADERS += \
         inc/FileSelectionWindow.hpp \

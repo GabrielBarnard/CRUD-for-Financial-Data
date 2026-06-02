@@ -1,25 +1,32 @@
 /*
  * Made by Gabriel Barnard
- * Made on the 21st of May 2026
+ * Updated on the 2nd of June 2026
  */
 
 #pragma once
+
+#include <sqlite3.h>
 
 #include <vector>
 #include <string>
 #include <ctime>
 
 class SQLprocessor {
-private:
-    struct stock {
-        std::time_t entryDate{};
-        std::string stockName{};
-        int stockID{};
-        int stockPrice{};
-    };
-public:
-    void crudCreate(const stock userInput);
-    const std::vector<stock> crudRead(const stock userInput);
-    void crudUpdate(const stock userInput);
-    void crudDelete(const stock userInput);
+    public:
+        SQLprocessor(const std::string filepath);
+        ~SQLprocessor(void);
+
+        struct Stock {
+            std::string entryDate{};
+            std::string name{};
+            int id{};
+            double price{};
+        };
+
+        void crudCreate(const Stock userInput);
+        const std::vector<Stock> crudRead(const Stock userInput);
+        void crudUpdate(const Stock userInput);
+        void crudDelete(const Stock userInput);
+    private:
+        sqlite3* db = nullptr;
 };

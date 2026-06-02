@@ -13,7 +13,7 @@
 class CSVprocessor {
 	public:
         struct Stock {
-            std::time_t entryDate{};
+            std::time_t entryDate{}; // TODO: Update to String, there's no actual reason (in this scenario) to use time_t
             std::string name{};
             int id{};
             int price{}; // TODO: Update to double

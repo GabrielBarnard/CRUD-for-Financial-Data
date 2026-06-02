@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-06-02
+
+### Added
+
+- Full SQL .db file CRUD functionality with input validation and parameterized queries.
+- Table called 'stocks' to Sample.db with several entries.
+- SQL .db file validation in SQLprocessor's constructor.
+
+### Fixed
+
+- Nothing of note.
+
+### Changed
+
+- Stocks std::time_t variable entryDate to std::string in CSVprocessor - using std::time_t wasn't actually needed, and std::string makes things drastically simpler.
+- SQLprocessor.ui component order - similar to CSVprocessor.ui, ordering now reflects the name (e.g., pushButton_2 comes before pushButton_3 in the Qt GUI).
+- Price in SQLprocessor from an int to a double.
+
+### Removed
+
+- Nothing of note.
+
 ## [0.2.0] - 2026-05-31
 
 ### Added

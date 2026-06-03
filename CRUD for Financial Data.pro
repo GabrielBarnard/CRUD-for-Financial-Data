@@ -3,7 +3,17 @@
 
 QT += widgets
 CONFIG += c++17 gui
-LIBS += -lsqlite3
+
+# If on Linux, loads sqlite3 library from the device
+unix {
+        LIBS += -lsqlite3
+}
+
+# if on Windows, loads the sqlite3 library from the win32 folder
+win32 {
+        SOURCES += win32/sqlite3.c
+        HEADERS += win32/sqlite3.h
+}
 
 HEADERS += \
         inc/FileSelectionWindow.hpp \
@@ -11,7 +21,7 @@ HEADERS += \
         inc/SQLwindow.hpp \
         inc/CSVprocessor.hpp \
         inc/SQLprocessor.hpp
-SOURCES += \ 
+SOURCES += \
         src/main.cpp \
         src/FileSelectionWindow.cpp \
         src/CSVwindow.cpp \
@@ -24,4 +34,4 @@ FORMS += \
         ui/SQLwindow.ui
 RESOURCES += res/res.qrc
 
-DESTDIR = $$PWD/bin # Creates the executable in the root folder, rather than the build folder
+DESTDIR = $$PWD/bin # Creates the executable in the bin folder inside the root folder, rather than the build folder

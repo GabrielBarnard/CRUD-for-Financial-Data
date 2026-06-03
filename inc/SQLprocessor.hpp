@@ -5,7 +5,11 @@
 
 #pragma once
 
-#include <sqlite3.h>
+#ifdef _WIN32
+    #include "../win32/sqlite3.h"
+#else // Linux
+    #include <sqlite3.h>
+#endif
 
 #include <vector>
 #include <string>

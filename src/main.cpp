@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Made on the 21st of May 2026
+ * Made on the 9th of May 2026
  */
 
 #include "../inc/FileSelectionWindow.hpp"
@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
 
     FileSelectionWindow window;
     window.setWindowIcon(QIcon(":/appIcon.ico"));
+    window.setStyleSheet("FileSelectionWindow {background-color:#0e0e10;}"); // Makes the background a kind of black
     window.show();
 
     return app.exec();

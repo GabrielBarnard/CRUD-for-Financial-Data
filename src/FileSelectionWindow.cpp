@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 2nd of June 2026
+ * Updated on the 9th of June 2026
  */
 
 #include <QFile>
@@ -27,6 +27,7 @@ void FileSelectionWindow::on_pushButton_clicked() {
         // Creates a new CSVwindow
         CSVwindow *csvWindow = new CSVwindow(filePath.toStdString());
         csvWindow->setWindowIcon(QIcon(":/appIcon.ico"));
+        csvWindow->setStyleSheet("CSVwindow {background-color:#0e0e10;}"); // Makes the background a kind of black
         csvWindow->show();
         this->close();
     } else if (filePath.endsWith(".db", Qt::CaseInsensitive)) {
@@ -34,6 +35,7 @@ void FileSelectionWindow::on_pushButton_clicked() {
             // Creates a new SQLwindow
             SQLwindow *sqlWindow = new SQLwindow(filePath.toStdString());
             sqlWindow->setWindowIcon(QIcon(":/appIcon.ico"));
+            sqlWindow->setStyleSheet("SQLwindow {background-color:#0e0e10;}"); // Makes the background a kind of black
             sqlWindow->show();
             this->close();
         } catch (...) {

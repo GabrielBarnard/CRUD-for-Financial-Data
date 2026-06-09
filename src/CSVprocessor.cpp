@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 31st of May 2026
+ * Updated on the 9th of June 2026
  */
 
 #include <cstdlib>
@@ -105,21 +105,13 @@ void CSVprocessor::loadData(const std::string &filePath) {
 
         CSVprocessor::Stock stock{};
 
+        // Places the data from the CSV file into the Stock
         stock.id = std::stoi(parts[0]);
         stock.name = parts[1];
-        stock.price = std::stoi(parts[2]);
+        stock.price = std::stod(parts[2]);
+        stock.entryDate = parts[3];
 
-        // Convert string to time_t date
-        struct std::tm tm{};
-        std::istringstream ss(parts[3]);
-        ss >> std::get_time(&tm, "%Y-%m-%d");
-
-        if (ss.fail()) {
-            throw std::runtime_error("An error occured in loadData() when translating a string to time_t.");
-        }
-
-        stock.entryDate = std::mktime(&tm);
-
+        // Places the new stock into the HashTable
         stocks[stock.id] = stock;
     }
 
@@ -138,20 +130,9 @@ void CSVprocessor::writeData(const std::string &filePath) {
         throw std::runtime_error("An error occured when calling CSVprocessor's destructor. Unable to open temporary.csv file.");
     }
 
+    // Writes all stocks in the HashTable into the output stream
     for (const auto &[key, stock] : stocks) {
-        // Converts stock.entryDate to a string
-        struct std::tm* tm{std::localtime(&stock.entryDate)};
-
-        std::ostringstream ss{};
-        ss << std::put_time(tm, "%Y-%m-%d");
-
-        if (ss.fail()) {
-            throw std::runtime_error("An error occured when translating time_t stock.entryDate to String in writeData(std::string filePath)");
-        }
-
-        std::string date = ss.str();
-
-        outputStream << stock.id << ',' << stock.name << ',' << stock.price << ',' << date << '\n';
+        outputStream << stock.id << ',' << stock.name << ',' << stock.price << ',' << stock.entryDate << '\n';
     }
 
     outputStream.close();

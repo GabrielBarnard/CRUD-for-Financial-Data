@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 31st of May 2026
+ * Updated on the 9th of June 2026
  */
 
 #include "../inc/CSVwindow.hpp"
@@ -9,8 +9,7 @@
 #include <QStringListModel>
 
 #include <cstdlib>
-#include <sstream>
-#include <iomanip>
+#include <QDate>
 
 CSVwindow::CSVwindow(const std::string filePath, QWidget *parent) : QMainWindow(parent), ui(new Ui::CSVwindow), csvProcessor(std::make_unique<CSVprocessor>(filePath)) {
     ui->setupUi(this);
@@ -32,20 +31,7 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
     CSVprocessor::Stock stock;
 
     // Entry Date
-    if  (!ui->lineEdit->text().toStdString().empty()) {
-        struct std::tm tm{};
-        std::istringstream ss(ui->lineEdit->text().toStdString());
-        ss >> std::get_time(&tm, "%Y-%m-%d");
-
-        if (ss.fail()) {
-            ui->lineEdit->setText("Format: 1970-01-01");
-            return CSVprocessor::Stock{};
-        }
-
-        stock.entryDate = std::mktime(&tm);
-    } else {
-        stock.entryDate = time_t{};
-    }
+    stock.entryDate = ui->lineEdit->text().toStdString();
 
     // Stock ID
     if (ui->lineEdit_2->text().toStdString().empty()) {
@@ -63,7 +49,7 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
 
     // Stock Price
     if (!ui->lineEdit_4->text().toStdString().empty()) {
-        stock.price = std::stoi(ui->lineEdit_4->text().toStdString());
+        stock.price = std::stod(ui->lineEdit_4->text().toStdString());
     } else {
         stock.price = -1;
     }
@@ -88,8 +74,12 @@ void CSVwindow::on_pushButton_clicked() {
         ui->lineEdit_4->setText("Price required");
         isUserInputInvalid = true;
     }
-    if (userInputStock.entryDate == time_t{}) {
+    if (userInputStock.entryDate == "") {
         ui->lineEdit->setText("Date required");
+        isUserInputInvalid = true;
+    }
+    if (!QDate::fromString(ui->lineEdit->text(), "yyyy-MM-dd").isValid())  {
+        ui->lineEdit->setText("Bad date format");
         isUserInputInvalid = true;
     }
 
@@ -115,7 +105,7 @@ void CSVwindow::on_pushButton_2_clicked() {
         ui->lineEdit_4->setText("Stock ID only");
         isUserInputInvalid = true;
     }
-    if (userInputStock.entryDate != time_t{}) {
+    if (userInputStock.entryDate != "") {
         ui->lineEdit->setText("Stock ID only");
         isUserInputInvalid = true;
     }
@@ -134,25 +124,13 @@ void CSVwindow::on_pushButton_2_clicked() {
     // Move all stocks into QStringList
     QStringList stocksList{};
     for (const auto &stock : stocks) {
-        // Converts stock.entryDate to a string
-        struct std::tm* tm{std::localtime(&stock.entryDate)};
-
-        std::ostringstream ss{};
-        ss << std::put_time(tm, "%Y-%m-%d");
-
-        if (ss.fail()) {
-            throw std::runtime_error("An error occured when translating time_t stock.entryDate to String in on_pushButton2_clicked()");
-        }
-
-        std::string date = ss.str();
-
         // Add the stock to the Qt List
         // Formatting of this line has no impact on output, it's purely aesthetic
         stocksList << QString("Stock ID: %1 | Stock Name: %2 | Stock Price: %3 | Entry Date: %4")
                           .arg(stock.id)
                           .arg(QString::fromStdString(stock.name))
                           .arg(stock.price)
-                          .arg(QString::fromStdString(date));
+                          .arg(QString::fromStdString(stock.entryDate));
     }
 
     // Loads the listView with the Qt stocksList
@@ -187,7 +165,7 @@ void CSVwindow::on_pushButton_4_clicked() {
         ui->lineEdit_4->setText("Stock ID only");
         isUserInputInvalid = true;
     }
-    if (userInputStock.entryDate != time_t{}) {
+    if (userInputStock.entryDate != "") {
         ui->lineEdit->setText("Stock ID only");
         isUserInputInvalid = true;
     }

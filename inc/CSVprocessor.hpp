@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 31st of May 2026
+ * Updated on the 9th of June 2026
  */
 
 #pragma once
@@ -13,10 +13,10 @@
 class CSVprocessor {
 	public:
         struct Stock {
-            std::time_t entryDate{}; // TODO: Update to String, there's no actual reason (in this scenario) to use time_t
+            std::string entryDate{};
             std::string name{};
             int id{};
-            int price{}; // TODO: Update to double
+            double price{};
         };
 
         void crudCreate(const Stock &userInput);

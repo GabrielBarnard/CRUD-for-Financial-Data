@@ -5,14 +5,18 @@ QT += widgets
 CONFIG += c++17 gui
 
 # If on Linux, loads sqlite3 library from the device
+# and sets the destdir to the bin/linux folder
 unix {
         LIBS += -lsqlite3
+        DESTDIR = $$PWD/bin/Linux
 }
 
 # if on Windows, loads the sqlite3 library from the win32 folder
+# and sets the DESTDIR to the bin/windows folder
 win32 {
         SOURCES += win32/sqlite3.c
         HEADERS += win32/sqlite3.h
+        DESTDIR = $$PWD/bin/Windows
 }
 
 HEADERS += \
@@ -33,5 +37,3 @@ FORMS += \
         ui/CSVwindow.ui \
         ui/SQLwindow.ui
 RESOURCES += res/res.qrc
-
-DESTDIR = $$PWD/bin # Creates the executable in the bin folder inside the root folder, rather than the build folder

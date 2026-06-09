@@ -1,5 +1,5 @@
 # Made by Gabriel Barnard
-# Updated on the 2nd of June 2026
+# Updated on the 9th of June 2026
 
 QT += widgets
 CONFIG += c++17 gui

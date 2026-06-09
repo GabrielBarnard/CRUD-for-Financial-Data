@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2026-06-08
+
+### Added
+
+- Builds now output to bin/Linux or bin/Windows folder, depending on the operating system, rather than directly to the bin folder. 
+- win32 folder with sqlite3.c and slite3.h files to enable the program to build on Windows.
+- .gitattributes folder with linguist-vendored=true for the win32 folder to prevent GitHub from listing the project as almost entirely made in C because of the sqlite3.h and sqlite3.c files.
+
+### Fixed
+
+- Date now displays properly on windows with no ? values.
+- Create button in CSVprocessor now validates date as yyyy-mm-dd format when adding a new entry.
+
+### Changed
+
+- Background color to a shade of black.
+- Stock entryDate in CSVprocessor from std::time_t to std::string.
+- Stock price in CSVprocessor from int to double.
+
+### Removed
+
+- Functionality to convert entryDate in csvProcessor and csvWindow to a std::string.
+
 ## [0.3.0] - 2026-06-02
 
 ### Added

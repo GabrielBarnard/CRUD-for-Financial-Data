@@ -1,12 +1,10 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 9th of June 2026
+ * Updated on the 13th of June 2026
  */
 
 #include <cstdlib>
 #include <fstream>
-#include <iomanip>
-#include <sstream>
 #include <algorithm>
 #include <cstdio>
 
@@ -35,12 +33,15 @@ const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userI
         std::vector<CSVprocessor::Stock> stocksToReturn;
         std::vector<int> keys;
 
+        // Fetches all keys from the stock HashTable
         for (const auto &[key, stock] : stocks) {
             keys.push_back(key);
         }
 
+        // Sorts the keys (stockID) in ascending order
         std::sort(keys.begin(), keys.end());
 
+        // Puts keys into the stocksToReturn vector, still in ascending order
         for (const auto &key : keys) {
             stocksToReturn.push_back(stocks.at(key));
         }
@@ -49,12 +50,12 @@ const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userI
 
     } else if (stocks.find(userInput.id) == stocks.end()) {
         throw std::runtime_error("Invalid Stock ID");
-    } else {                  // Returns one stock in HashTable
+    } else { // Returns one stock from HashTable
         CSVprocessor::Stock stockToReturn = stocks.at(userInput.id);
         return {stockToReturn};
     }
 
-    return {}; // Should not trigger unless something goes wrong
+    return {}; // Should not trigger unless something goes wrong, but safely exits the function if it does
 }
 
 void CSVprocessor::crudUpdate(const Stock &userInput) {
@@ -62,9 +63,16 @@ void CSVprocessor::crudUpdate(const Stock &userInput) {
         throw std::runtime_error("Invalid Stock ID");
     }
 
-    stocks[userInput.id].name = userInput.name;
-    stocks[userInput.id].entryDate = userInput.entryDate;
-    stocks[userInput.id].price = userInput.price;
+    // If a valid entry has been put into one of the stock fields, place it into the stocks HashTable
+    if (userInput.name != "") {
+        stocks[userInput.id].name = userInput.name;
+    }
+    if (userInput.entryDate != "") {
+        stocks[userInput.id].entryDate = userInput.entryDate;
+    }
+    if (userInput.price != -1) {
+        stocks[userInput.id].price = userInput.price;
+    }
 }
 
 void CSVprocessor::crudDelete(const Stock &userInput) {
@@ -75,7 +83,6 @@ void CSVprocessor::crudDelete(const Stock &userInput) {
     stocks.erase(userInput.id);
 }
 
-// TODO: Input more file validation here, and better handling in CSVwindow
 void CSVprocessor::loadData(const std::string &filePath) {
     // Opens an input file stream to the CSV file and verifies that it opened successfully
     std::ifstream inputStream(filePath);
@@ -91,6 +98,7 @@ void CSVprocessor::loadData(const std::string &filePath) {
             line.pop_back();
         }
 
+        // Moves each part in the line into a parts vector
         std::vector<std::string> parts{};
         std::string part{};
         for (const auto& character : line) {
@@ -101,11 +109,16 @@ void CSVprocessor::loadData(const std::string &filePath) {
                 part = {};
             }
         }
-        parts.push_back(part);
+        parts.push_back(part); // Adds the final part into the parts vector
+
+        if (parts.size() != 4) {
+            throw std::runtime_error("CSV file format is invalid.");
+        }
 
         CSVprocessor::Stock stock{};
 
         // Places the data from the CSV file into the Stock
+        // No need to use try catch here, as if id or price aren't numbers, then std::stoi will throw an error
         stock.id = std::stoi(parts[0]);
         stock.name = parts[1];
         stock.price = std::stod(parts[2]);

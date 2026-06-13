@@ -31,7 +31,11 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
     CSVprocessor::Stock stock;
 
     // Entry Date
-    stock.entryDate = ui->lineEdit->text().toStdString();
+    if (ui->lineEdit->text() != "" && !QDate::fromString(ui->lineEdit->text(), "yyyy-MM-dd").isValid())  {
+        ui->lineEdit->setText("Invalid date");
+    } else {
+        stock.entryDate = ui->lineEdit->text().toStdString();
+    }
 
     // Stock ID
     if (ui->lineEdit_2->text().toStdString().empty()) {
@@ -49,7 +53,11 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
 
     // Stock Price
     if (!ui->lineEdit_4->text().toStdString().empty()) {
-        stock.price = std::stod(ui->lineEdit_4->text().toStdString());
+        try {
+            stock.price = std::stod(ui->lineEdit_4->text().toStdString());
+        } catch (...) {
+            ui->lineEdit_4->setText("Invalid Stock Price");
+        }
     } else {
         stock.price = -1;
     }
@@ -76,10 +84,6 @@ void CSVwindow::on_pushButton_clicked() {
     }
     if (userInputStock.entryDate == "") {
         ui->lineEdit->setText("Date required");
-        isUserInputInvalid = true;
-    }
-    if (!QDate::fromString(ui->lineEdit->text(), "yyyy-MM-dd").isValid())  {
-        ui->lineEdit->setText("Bad date format");
         isUserInputInvalid = true;
     }
 

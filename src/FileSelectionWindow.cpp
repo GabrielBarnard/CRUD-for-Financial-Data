@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 9th of June 2026
+ * Updated on the 13th of June 2026
  */
 
 #include <QFile>
@@ -25,11 +25,15 @@ void FileSelectionWindow::on_pushButton_clicked() {
 
     if (filePath.endsWith(".csv", Qt::CaseInsensitive) && QFile::exists(filePath)) {
         // Creates a new CSVwindow
-        CSVwindow *csvWindow = new CSVwindow(filePath.toStdString());
-        csvWindow->setWindowIcon(QIcon(":/appIcon.ico"));
-        csvWindow->setStyleSheet("CSVwindow {background-color:#0e0e10;}"); // Makes the background a kind of black
-        csvWindow->show();
-        this->close();
+        try {
+            CSVwindow *csvWindow = new CSVwindow(filePath.toStdString());
+            csvWindow->setWindowIcon(QIcon(":/appIcon.ico"));
+            csvWindow->setStyleSheet("CSVwindow {background-color:#0e0e10;}"); // Makes the background a kind of black
+            csvWindow->show();
+            this->close();
+        } catch (...) {
+            ui->lineEdit->setText("This .csv file is invalid");
+        }
     } else if (filePath.endsWith(".db", Qt::CaseInsensitive)) {
         try {
             // Creates a new SQLwindow
@@ -39,12 +43,12 @@ void FileSelectionWindow::on_pushButton_clicked() {
             sqlWindow->show();
             this->close();
         } catch (...) {
-            ui->lineEdit->setText("This .db file is invalid.");
+            ui->lineEdit->setText("This .db file is invalid");
         }
     } else if (!QFile::exists(filePath)) {
         ui->lineEdit->setText("This file does not exist");
     } else {
-        ui->lineEdit->setText("Input invalid. Your input must be an existing .csv or .db file");
+        ui->lineEdit->setText("Input invalid. Must be an existing .csv or .db file");
     }
 }
 

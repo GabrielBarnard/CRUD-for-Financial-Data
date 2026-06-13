@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - UNRELEASED
+
+### Added
+
+- Better input validation in CSVprocessor and CSVwindow.
+- Try Catch statement in FileSelectionWindow for CSVwindow that informs the user if something is wrong with their chosen file.
+
+### Fixed
+
+- The program now prevents invalid .csv input files with too many parts (commas) from being loaded into CSVprocessor.
+- Invalid dates can no longer be added via the CRUD Update function in CSVwindow.
+- Invalid prices no longer crash the program when used in the CSVwindow.
+
+### Changed
+
+- Moved date validation for the CRUD add function in CSVwindow from the add function into the fetchUserInput() function.
+- .gitignore now ignores Sample.csv.backup file in the res folder, which is generated automatically upon using the Sample.csv file.
+
+### Removed
+
+- Functionality to convert entryDate in csvProcessor and csvWindow to a std::string.
+
 ## [0.3.1] - 2026-06-08
 
 ### Added

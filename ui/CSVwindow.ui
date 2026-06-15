@@ -54,6 +54,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="idLabel">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Stock ID:</string>
         </property>
@@ -61,6 +64,9 @@
       </item>
       <item>
        <widget class="QLabel" name="dateLabel">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Date Purchased:</string>
         </property>
@@ -68,6 +74,9 @@
       </item>
       <item>
        <widget class="QLabel" name="nameLabel">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Stock Name:</string>
         </property>
@@ -75,6 +84,9 @@
       </item>
       <item>
        <widget class="QLabel" name="priceLabel">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Stock Price:</string>
         </property>

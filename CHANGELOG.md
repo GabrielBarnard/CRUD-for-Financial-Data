@@ -4,15 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - UNRELEASED
+## [1.0.0] - 2026-06-15
 
 ### Added
 
 - README.md.
+- Old backup file is now explicitly deleted in the program to ensure there are no issues caused by trying to overwrite an old .backup file.
 
 ### Fixed
 
-- Nothing of note.
+- Minor typos in README.md and CSVprocessor.cpp.
+- Create function in SQLWindow now stops itself from running if a Stock ID is input.
 
 ### Changed
 
@@ -20,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- Functionality to convert entryDate in csvProcessor and csvWindow to a std::string.
+- Nothing of note.
 
 ## [0.3.2] - 2026-06-15
 

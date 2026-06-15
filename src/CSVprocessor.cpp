@@ -197,13 +197,16 @@ void CSVprocessor::writeData(const std::string &filePath) {
 
     outputStream.close();
 
+    // Deletes the old .backup file
+    std::remove((filePath + ".backup").c_str());
+
     // Adds .backup to the end of the original file
     if (std::rename(filePath.c_str(), (filePath + ".backup").c_str())) {
-        throw std::runtime_error("An error occured when remaining .csv.temp to .csv in writeData(std::string filePath)");
+        throw std::runtime_error("An error occured when renaming .csv.temp to .csv in writeData(const std::string &filePath)");
     }
 
     // Renames the .csv.temp file to the original file name
     if (std::rename(tempFilePath.c_str(), filePath.c_str())) {
-        throw std::runtime_error("An error occured when remaining .csv.temp to .csv in writeData(std::string filePath)");
+        throw std::runtime_error("An error occured when renaming .csv.temp to .csv in writeData(const std::string &filePath)");
     }
 }

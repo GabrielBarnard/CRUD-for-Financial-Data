@@ -86,6 +86,7 @@ void SQLwindow::on_createButton_clicked() {
     // Validates user input by checking if stock's name, price, or entry date is empty
     if (userInputStock.id != -1) {
         ui->idEdit->setText("ID not permitted");
+        isUserInputInvalid = true;
     }
     if (userInputStock.name == "") {
         ui->nameEdit->setText("Name required");

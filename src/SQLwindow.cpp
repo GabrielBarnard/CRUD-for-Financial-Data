@@ -20,13 +20,14 @@ SQLwindow::~SQLwindow() {
 
 SQLprocessor::Stock SQLwindow::fetchUserInput() {
     SQLprocessor::Stock stock;
+    bool isUserInputInvalid{false};
 
     // Entry Date
-    if (QDate::fromString(ui->dateEdit->text(), "yyyy-MM-dd").isValid() || ui->dateEdit->text().toStdString() == "") {
-        stock.entryDate = ui->dateEdit->text().toStdString();
+    if (ui->dateEdit->text() != "" && !QDate::fromString(ui->dateEdit->text(), "yyyy-MM-dd").isValid())  {
+        ui->dateEdit->setText("Invalid date");
+        isUserInputInvalid = true;
     } else {
-        ui->dateEdit->setText("Format: 1970-01-01");
-        return SQLprocessor::Stock{};
+        stock.entryDate = ui->dateEdit->text().toStdString();
     }
 
     // Stock ID
@@ -37,6 +38,7 @@ SQLprocessor::Stock SQLwindow::fetchUserInput() {
             stock.id = std::stoi(ui->idEdit->text().toStdString());
         } catch (...) {
             ui->idEdit->setText("Invalid Stock ID");
+            isUserInputInvalid = true;
         }
     }
 
@@ -46,12 +48,17 @@ SQLprocessor::Stock SQLwindow::fetchUserInput() {
     // Stock Price
     if (!ui->priceEdit->text().toStdString().empty()) {
         try {
-            stock.price = std::stoi(ui->priceEdit->text().toStdString());
+            stock.price = std::stod(ui->priceEdit->text().toStdString());
         } catch (...) {
-            ui->priceEdit->setText("Invalid Price");
+            ui->priceEdit->setText("Invalid Stock Price");
+            isUserInputInvalid = true;
         }
     } else {
         stock.price = -1;
+    }
+
+    if (isUserInputInvalid) {
+        throw std::runtime_error("A user Input field was invalid.");
     }
 
     return stock;
@@ -59,7 +66,12 @@ SQLprocessor::Stock SQLwindow::fetchUserInput() {
 
 // Create
 void SQLwindow::on_createButton_clicked() {
-    SQLprocessor::Stock userInputStock{fetchUserInput()};
+    SQLprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
     bool isUserInputInvalid{false};
 
     // Validates user input by checking if stock's name, price, or entry date is empty
@@ -89,7 +101,12 @@ void SQLwindow::on_createButton_clicked() {
 
 // Read
 void SQLwindow::on_readButton_clicked() {
-    SQLprocessor::Stock userInputStock{fetchUserInput()};
+    SQLprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
     std::vector<SQLprocessor::Stock> stocks{};
 
     stocks = sqlProcessor->crudRead(userInputStock);
@@ -114,7 +131,12 @@ void SQLwindow::on_readButton_clicked() {
 
 // Update
 void SQLwindow::on_updateButton_clicked() {
-    SQLprocessor::Stock userInputStock{fetchUserInput()};
+    SQLprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
 
     // Validates user input by ensuring id field is filled out
     if (userInputStock.id == -1) {
@@ -127,7 +149,12 @@ void SQLwindow::on_updateButton_clicked() {
 
 // Delete
 void SQLwindow::on_deleteButton_clicked() {
-    SQLprocessor::Stock userInputStock{fetchUserInput()};
+    SQLprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
 
     // Validates user input by ensuring only the id field is filled out
     bool isUserInputInvalid{false};

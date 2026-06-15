@@ -29,10 +29,12 @@ void CSVwindow::closeEvent(QCloseEvent *event) {
 
 CSVprocessor::Stock CSVwindow::fetchUserInput() {
     CSVprocessor::Stock stock;
+    bool isUserInputInvalid{false};
 
     // Entry Date
     if (ui->dateEdit->text() != "" && !QDate::fromString(ui->dateEdit->text(), "yyyy-MM-dd").isValid())  {
         ui->dateEdit->setText("Invalid date");
+        isUserInputInvalid = true;
     } else {
         stock.entryDate = ui->dateEdit->text().toStdString();
     }
@@ -45,6 +47,7 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
             stock.id = std::stoi(ui->idEdit->text().toStdString());
         } catch (...) {
             ui->idEdit->setText("Invalid Stock ID");
+            isUserInputInvalid = true;
         }
     }
 
@@ -57,9 +60,14 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
             stock.price = std::stod(ui->priceEdit->text().toStdString());
         } catch (...) {
             ui->priceEdit->setText("Invalid Stock Price");
+            isUserInputInvalid = true;
         }
     } else {
         stock.price = -1;
+    }
+
+    if (isUserInputInvalid) {
+        throw std::runtime_error("A user Input field was invalid.");
     }
 
     return stock;
@@ -67,7 +75,12 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
 
 // Create
 void CSVwindow::on_createButton_clicked() {
-    CSVprocessor::Stock userInputStock{fetchUserInput()};
+    CSVprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
     bool isUserInputInvalid{false};
 
     // Validates user input by checking if stock's name, price, or entry date is empty
@@ -97,7 +110,12 @@ void CSVwindow::on_createButton_clicked() {
 
 // Read
 void CSVwindow::on_readButton_clicked() {
-    CSVprocessor::Stock userInputStock{fetchUserInput()};
+    CSVprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
     std::vector<CSVprocessor::Stock> stocks{};
     bool isUserInputInvalid{false};
 
@@ -146,7 +164,12 @@ void CSVwindow::on_readButton_clicked() {
 
 // Update
 void CSVwindow::on_updateButton_clicked() {
-    CSVprocessor::Stock userInputStock{fetchUserInput()};
+    CSVprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
 
     try {
         csvProcessor->crudUpdate(userInputStock);
@@ -158,7 +181,12 @@ void CSVwindow::on_updateButton_clicked() {
 
 // Delete
 void CSVwindow::on_deleteButton_clicked() {
-    CSVprocessor::Stock userInputStock{fetchUserInput()};
+    CSVprocessor::Stock userInputStock{};
+    try {
+        userInputStock = fetchUserInput();
+    } catch (...) {
+        return;
+    }
     bool isUserInputInvalid{false};
 
     // Validate user input.

@@ -10,15 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Better input validation in CSVprocessor and CSVwindow.
 - Try Catch statement in FileSelectionWindow for CSVwindow that informs the user if something is wrong with their chosen file.
+- Error throwing in fetchUserInput() in CSVwindow and SQLprocessor if the user input is invalid.
 
 ### Fixed
 
 - The program now prevents invalid .csv input files with too many parts (commas) from being loaded into CSVprocessor.
 - Invalid dates can no longer be added via the CRUD Update function in CSVwindow.
 - Invalid prices no longer crash the program when used in the CSVwindow.
+- Functions in SQLwindow and CSVprocessor no longer run with invalid user input. I fixed this through try catch statements that prevent the program from running if fetchUserInput() throws an error.
 
 ### Changed
 
+- Variable names in SQLwindow and CSVwindow to more descriptive variable names to increase maintainability and readabilitiy.
 - Moved date validation for the CRUD add function in CSVwindow from the add function into the fetchUserInput() function.
 - .gitignore now ignores Sample.csv.backup file in the res folder, which is generated automatically upon using the Sample.csv file.
 

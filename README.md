@@ -11,7 +11,7 @@ Loads stock data from .csv or .db input files to allow the user to access full C
 
 ## Project Structure
 
-```bash
+```text
 CRUD-for-Finacial-Data
 ├── CHANGELOG.md
 ├── CRUD for Financial Data.pro

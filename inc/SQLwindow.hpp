@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Made on the 21st of May 2026
+ * Updated on the 15th of June 2026
  */
 
 #pragma once
@@ -21,10 +21,10 @@ class SQLwindow : public QMainWindow {
         explicit SQLwindow(const std::string filePath, QWidget *parent = nullptr);
         ~SQLwindow();
     private slots:
-        void on_pushButton_clicked();
-        void on_pushButton_2_clicked();
-        void on_pushButton_3_clicked();
-        void on_pushButton_4_clicked();
+        void on_createButton_clicked();
+        void on_readButton_clicked();
+        void on_updateButton_clicked();
+        void on_deleteButton_clicked();
     private:
         Ui::SQLwindow *ui;
 

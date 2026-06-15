@@ -19,30 +19,30 @@
      <widget class="QListView" name="listView"/>
     </item>
     <item row="2" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_1">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="createButton">
         <property name="text">
          <string>Create</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="readButton">
         <property name="text">
          <string>Read</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="updateButton">
         <property name="text">
          <string>Update</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="deleteButton">
         <property name="text">
          <string>Delete</string>
         </property>
@@ -53,28 +53,28 @@
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Date Purchased:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="idLabel">
         <property name="text">
          <string>Stock ID:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="dateLabel">
+        <property name="text">
+         <string>Date Purchased:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="nameLabel">
         <property name="text">
          <string>Stock Name:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="priceLabel">
         <property name="text">
          <string>Stock Price:</string>
         </property>
@@ -85,16 +85,16 @@
     <item row="1" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="idEdit"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="dateEdit"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="nameEdit"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_4"/>
+       <widget class="QLineEdit" name="priceEdit"/>
       </item>
      </layout>
     </item>

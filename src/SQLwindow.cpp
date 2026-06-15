@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 2nd of June 2026
+ * Updated on the 15th of June 2026
  */
 
 #include "../inc/SQLwindow.hpp"
@@ -22,30 +22,34 @@ SQLprocessor::Stock SQLwindow::fetchUserInput() {
     SQLprocessor::Stock stock;
 
     // Entry Date
-    if (QDate::fromString(ui->lineEdit->text(), "yyyy-MM-dd").isValid() || ui->lineEdit->text().toStdString() == "") {
-        stock.entryDate = ui->lineEdit->text().toStdString();
+    if (QDate::fromString(ui->dateEdit->text(), "yyyy-MM-dd").isValid() || ui->dateEdit->text().toStdString() == "") {
+        stock.entryDate = ui->dateEdit->text().toStdString();
     } else {
-        ui->lineEdit->setText("Format: 1970-01-01");
+        ui->dateEdit->setText("Format: 1970-01-01");
         return SQLprocessor::Stock{};
     }
 
     // Stock ID
-    if (ui->lineEdit_2->text().toStdString().empty()) {
+    if (ui->idEdit->text().toStdString().empty()) {
         stock.id = -1;
     } else {
         try {
-            stock.id = std::stoi(ui->lineEdit_2->text().toStdString());
+            stock.id = std::stoi(ui->idEdit->text().toStdString());
         } catch (...) {
-            ui->lineEdit_2->setText("Invalid Stock ID");
+            ui->idEdit->setText("Invalid Stock ID");
         }
     }
 
     // Stock Name
-    stock.name = ui->lineEdit_3->text().toStdString();
+    stock.name = ui->nameEdit->text().toStdString();
 
     // Stock Price
-    if (!ui->lineEdit_4->text().toStdString().empty()) {
-        stock.price = std::stoi(ui->lineEdit_4->text().toStdString());
+    if (!ui->priceEdit->text().toStdString().empty()) {
+        try {
+            stock.price = std::stoi(ui->priceEdit->text().toStdString());
+        } catch (...) {
+            ui->priceEdit->setText("Invalid Price");
+        }
     } else {
         stock.price = -1;
     }
@@ -54,24 +58,24 @@ SQLprocessor::Stock SQLwindow::fetchUserInput() {
 }
 
 // Create
-void SQLwindow::on_pushButton_clicked() {
+void SQLwindow::on_createButton_clicked() {
     SQLprocessor::Stock userInputStock{fetchUserInput()};
     bool isUserInputInvalid{false};
 
     // Validates user input by checking if stock's name, price, or entry date is empty
     if (userInputStock.id != -1) {
-        ui->lineEdit_2->setText("ID not permitted");
+        ui->idEdit->setText("ID not permitted");
     }
     if (userInputStock.name == "") {
-        ui->lineEdit_3->setText("Name required");
+        ui->nameEdit->setText("Name required");
         isUserInputInvalid = true;
     }
     if (userInputStock.price == -1) {
-        ui->lineEdit_4->setText("Price required");
+        ui->priceEdit->setText("Price required");
         isUserInputInvalid = true;
     }
     if (userInputStock.entryDate == "") {
-        ui->lineEdit->setText("Date required");
+        ui->dateEdit->setText("Date required");
         isUserInputInvalid = true;
     }
 
@@ -84,13 +88,9 @@ void SQLwindow::on_pushButton_clicked() {
 }
 
 // Read
-void SQLwindow::on_pushButton_2_clicked() {
+void SQLwindow::on_readButton_clicked() {
     SQLprocessor::Stock userInputStock{fetchUserInput()};
     std::vector<SQLprocessor::Stock> stocks{};
-
-    if (userInputStock.id != -1 && userInputStock.id < 1) {
-        ui->lineEdit_2->setText("Invalid Stock ID");
-    }
 
     stocks = sqlProcessor->crudRead(userInputStock);
 
@@ -113,12 +113,12 @@ void SQLwindow::on_pushButton_2_clicked() {
 }
 
 // Update
-void SQLwindow::on_pushButton_3_clicked() {
+void SQLwindow::on_updateButton_clicked() {
     SQLprocessor::Stock userInputStock{fetchUserInput()};
 
     // Validates user input by ensuring id field is filled out
     if (userInputStock.id == -1) {
-        ui->lineEdit_2->setText("ID required");
+        ui->idEdit->setText("ID required");
         return;
     }
 
@@ -126,7 +126,7 @@ void SQLwindow::on_pushButton_3_clicked() {
 }
 
 // Delete
-void SQLwindow::on_pushButton_4_clicked() {
+void SQLwindow::on_deleteButton_clicked() {
     SQLprocessor::Stock userInputStock{fetchUserInput()};
 
     // Validates user input by ensuring only the id field is filled out
@@ -134,19 +134,19 @@ void SQLwindow::on_pushButton_4_clicked() {
 
     // Validates user input by checking if stock's name, price, or entry date is empty and if there is an input id
     if (userInputStock.id == -1) {
-        ui->lineEdit_2->setText("ID required");
+        ui->idEdit->setText("ID required");
         isUserInputInvalid = true;
     }
     if (userInputStock.name != "") {
-        ui->lineEdit_3->setText("ID only");
+        ui->nameEdit->setText("ID only");
         isUserInputInvalid = true;
     }
     if (userInputStock.price != -1) {
-        ui->lineEdit_4->setText("ID only");
+        ui->priceEdit->setText("ID only");
         isUserInputInvalid = true;
     }
     if (userInputStock.entryDate != "") {
-        ui->lineEdit->setText("ID only");
+        ui->dateEdit->setText("ID only");
         isUserInputInvalid = true;
     }
 

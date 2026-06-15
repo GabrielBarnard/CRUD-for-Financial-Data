@@ -1,5 +1,5 @@
 # Made by Gabriel Barnard
-# Updated on the 9th of June 2026
+# Updated on the 15th of June 2026
 
 QT += widgets
 CONFIG += c++17 gui
@@ -11,7 +11,7 @@ unix {
         DESTDIR = $$PWD/bin/Linux
 }
 
-# if on Windows, loads the sqlite3 library from the win32 folder
+# If on Windows, loads the sqlite3 library from the win32 folder
 # and sets the DESTDIR to the bin/windows folder
 win32 {
         SOURCES += win32/sqlite3.c

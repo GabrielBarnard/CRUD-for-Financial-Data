@@ -18,6 +18,12 @@ SQLwindow::~SQLwindow() {
     delete ui;
 }
 
+/*
+ * fetchUserInput()
+ * Fetches and validates user input from SQLwindow GUI
+ * O(n) time complexity
+ * O(1) space complexity
+ */
 SQLprocessor::Stock SQLwindow::fetchUserInput() {
     SQLprocessor::Stock stock;
     bool isUserInputInvalid{false};
@@ -64,7 +70,10 @@ SQLprocessor::Stock SQLwindow::fetchUserInput() {
     return stock;
 }
 
-// Create
+/*
+ * on_createButton_clicked()
+ * Creates a new stock entry
+ */
 void SQLwindow::on_createButton_clicked() {
     SQLprocessor::Stock userInputStock{};
     try {
@@ -99,7 +108,10 @@ void SQLwindow::on_createButton_clicked() {
     sqlProcessor->crudCreate(userInputStock);
 }
 
-// Read
+/*
+ * on_readButton_clicked()
+ * Reads a specific or multiple stock entries
+ */
 void SQLwindow::on_readButton_clicked() {
     SQLprocessor::Stock userInputStock{};
     try {
@@ -129,7 +141,10 @@ void SQLwindow::on_readButton_clicked() {
     ui->listView->setModel(model);
 }
 
-// Update
+/*
+ * on_updateButton_clicked()
+ * Updates a specific stock entry
+ */
 void SQLwindow::on_updateButton_clicked() {
     SQLprocessor::Stock userInputStock{};
     try {
@@ -147,7 +162,10 @@ void SQLwindow::on_updateButton_clicked() {
     sqlProcessor->crudUpdate(userInputStock);
 }
 
-// Delete
+/*
+ * on_deleteButton_clicked()
+ * Deletes a specific stock entry
+ */
 void SQLwindow::on_deleteButton_clicked() {
     SQLprocessor::Stock userInputStock{};
     try {

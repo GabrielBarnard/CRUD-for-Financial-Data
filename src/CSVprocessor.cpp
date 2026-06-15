@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 13th of June 2026
+ * Updated on the 15th of June 2026
  */
 
 #include <cstdlib>
@@ -14,6 +14,12 @@ CSVprocessor::CSVprocessor(const std::string &filePath) : filePath(filePath) {
     loadData(CSVprocessor::filePath);
 }
 
+/*
+ * crudCreate()
+ * Adds a stock to the stocks HashTable
+ * O(n) time complexity
+ * O(1) space complexity
+ */
 void CSVprocessor::crudCreate(const Stock &userInput) {
     int entryId{};
 
@@ -28,6 +34,16 @@ void CSVprocessor::crudCreate(const Stock &userInput) {
     stocks[entryId].entryDate = userInput.entryDate;
 }
 
+/*
+ * crudRead()
+ * Reads a specific stock or all stocks from the stocks HashTable
+ * All Stocks:
+    * O(n log n) time complexity
+    * O(n) space complexity
+ * Specific Stock:
+    * O(1) time complexity
+    * O(1) space complexity
+ */
 const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userInput) {
     if (userInput.id == -1) { // Returns all stocks in HashTable (user left stockID empty)
         std::vector<CSVprocessor::Stock> stocksToReturn;
@@ -58,6 +74,12 @@ const std::vector<CSVprocessor::Stock> CSVprocessor::crudRead(const Stock &userI
     return {}; // Should not trigger unless something goes wrong, but safely exits the function if it does
 }
 
+/*
+ * crudUpdate()
+ * Updates a specific stock from the stocks HashTable
+ * O(1) time complexity
+ * O(1) space complexity
+ */
 void CSVprocessor::crudUpdate(const Stock &userInput) {
     if (stocks.find(userInput.id) == stocks.end()) {
         throw std::runtime_error("Invalid Stock ID");
@@ -75,6 +97,13 @@ void CSVprocessor::crudUpdate(const Stock &userInput) {
     }
 }
 
+
+/*
+ * crudDelete()
+ * Deletes a specific stock from the stocks HashTable
+ * O(1) time complexity
+ * O(1) space complexity
+ */
 void CSVprocessor::crudDelete(const Stock &userInput) {
     if (stocks.find(userInput.id) == stocks.end()) {
         throw std::runtime_error("Invalid Stock ID");
@@ -83,6 +112,12 @@ void CSVprocessor::crudDelete(const Stock &userInput) {
     stocks.erase(userInput.id);
 }
 
+/*
+ * loadData()
+ * Loads stock data into stocks HashTable from a input .csv file
+ * O(n) time complexity
+ * O(n) space complexity
+ */
 void CSVprocessor::loadData(const std::string &filePath) {
     // Opens an input file stream to the CSV file and verifies that it opened successfully
     std::ifstream inputStream(filePath);
@@ -131,10 +166,22 @@ void CSVprocessor::loadData(const std::string &filePath) {
     inputStream.close();
 }
 
+/*
+ * close()
+ * Helper function for writeData()
+ * O(n) time complexity
+ * O(1) space complexity
+ */
 void CSVprocessor::close(void) {
     writeData(filePath);
 }
 
+/*
+ * writeData()
+ * Writes data from stocks HashTable to a .csv file and creates a .csv.backup of the old file
+ * O(n) time complexity
+ * O(1) space complexity
+ */
 void CSVprocessor::writeData(const std::string &filePath) {
     std::string tempFilePath{filePath + ".temp"};
 

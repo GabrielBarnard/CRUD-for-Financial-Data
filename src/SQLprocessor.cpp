@@ -1,7 +1,9 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 2nd of June 2026
+ * Updated on the 15th of June 2026
  */
+
+// No time or space complexity analysis because all notable operations are handled by SQLite
 
 #include "../inc/SQLprocessor.hpp"
 
@@ -57,7 +59,10 @@ SQLprocessor::~SQLprocessor (void) {
     sqlite3_close(db);
 }
 
-// Create
+/*
+ * crudCreate()
+ * Adds a specific stock entry to the .db file
+ */
 void SQLprocessor::crudCreate(const Stock userInput) {
     const char* sqlQuery = "INSERT INTO stocks (name, price, date) VALUES (?, ?, ?)";
     sqlite3_stmt* statement = nullptr; // The SQL statement
@@ -76,7 +81,10 @@ void SQLprocessor::crudCreate(const Stock userInput) {
     sqlite3_finalize(statement);
 }
 
-// Read
+/*
+ * crudRead()
+ * Reads a specific or multiple entries from the .db file, returning a vector
+ */
 const std::vector<SQLprocessor::Stock> SQLprocessor::crudRead(const Stock userInput) {
     const char* sqlQuery = "SELECT * FROM stocks WHERE "
                         "(id = ?1 OR ?1 = -1)AND "
@@ -112,7 +120,10 @@ const std::vector<SQLprocessor::Stock> SQLprocessor::crudRead(const Stock userIn
     return stocks;
 }
 
-// Update
+/*
+ * crudUpdate()
+ * Updates a specific entry in the .db file
+ */
 void SQLprocessor::crudUpdate(const Stock userInput) {
     const char* sqlQuery = "UPDATE stocks SET "
                         "name = COALESCE(?1, name), "
@@ -136,7 +147,10 @@ void SQLprocessor::crudUpdate(const Stock userInput) {
     sqlite3_finalize(statement);
 }
 
-// Delete
+/*
+ * crudDelete()
+ * Deletes a specific entry from the .db file
+ */
 void SQLprocessor::crudDelete(const Stock userInput) {
     const char* sqlQuery = "DELETE FROM stocks WHERE id = ?1";
     sqlite3_stmt* statement = nullptr; // The SQL statement

@@ -1,6 +1,6 @@
 /*
  * Made by Gabriel Barnard
- * Updated on the 13th of June 2026
+ * Updated on the 15th of June 2026
  */
 
 #include <QFile>
@@ -20,6 +20,8 @@ FileSelectionWindow::~FileSelectionWindow() {
     delete ui;
 }
 
+
+// Opens the CSVprocessor or the SQLprocessor window, depending on the user's input
 void FileSelectionWindow::on_pushButton_clicked() {
     QString filePath = ui->lineEdit->text();
 

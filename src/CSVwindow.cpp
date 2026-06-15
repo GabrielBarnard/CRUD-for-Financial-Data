@@ -27,6 +27,12 @@ void CSVwindow::closeEvent(QCloseEvent *event) {
     event->accept();
 }
 
+/*
+ * fetchUserInput()
+ * Fetches and validates user input from CSVwindow GUI
+ * O(n) time complexity
+ * O(1) space complexity
+ */
 CSVprocessor::Stock CSVwindow::fetchUserInput() {
     CSVprocessor::Stock stock;
     bool isUserInputInvalid{false};
@@ -73,7 +79,12 @@ CSVprocessor::Stock CSVwindow::fetchUserInput() {
     return stock;
 }
 
-// Create
+/*
+ * on_createButton_clicked()
+ * Creates a new stock entry
+ * O(n) time complexity
+ * O(1) space complexity
+ */
 void CSVwindow::on_createButton_clicked() {
     CSVprocessor::Stock userInputStock{};
     try {
@@ -108,7 +119,16 @@ void CSVwindow::on_createButton_clicked() {
     csvProcessor->crudCreate(userInputStock);
 }
 
-// Read
+/*
+ * on_readButton_clicked()
+ * Reads a specific stock or all stocks
+ * All Stocks:
+    * O(n log n) time complexity
+    * O(n) space complexity
+ * Specific Stock:
+    * O(1) time complexity
+    * O(1) space complexity
+ */
 void CSVwindow::on_readButton_clicked() {
     CSVprocessor::Stock userInputStock{};
     try {
@@ -162,7 +182,12 @@ void CSVwindow::on_readButton_clicked() {
     ui->listView->setModel(model);
 }
 
-// Update
+/*
+ * on_updateButton_clicked()
+ * Updates a specific stock
+ * O(1) time complexity
+ * O(1) space complexity
+ */
 void CSVwindow::on_updateButton_clicked() {
     CSVprocessor::Stock userInputStock{};
     try {
@@ -179,7 +204,12 @@ void CSVwindow::on_updateButton_clicked() {
     }
 }
 
-// Delete
+/*
+ * crudDelete()
+ * Deletes a specific stock
+ * O(1) time complexity
+ * O(1) space complexity
+ */
 void CSVwindow::on_deleteButton_clicked() {
     CSVprocessor::Stock userInputStock{};
     try {

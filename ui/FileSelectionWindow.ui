@@ -89,7 +89,7 @@
       <item>
        <widget class="QLineEdit" name="lineEdit">
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>

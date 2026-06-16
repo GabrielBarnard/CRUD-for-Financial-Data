@@ -45,7 +45,7 @@ CRUD-for-Finacial-Data
 
 ## Required Software
 
-Any software listed here is required to compile the program. However, if you use one of the pre-compiled releases, you won't have to download this software.
+Any software listed here is required to compile the program. However, if you use one of the pre-compiled releases, you won't have to download this software. Unless you are running this program on Linux, in which case you will need to download Qt.
 
 - Qt:
     * Linux & Windows: https://www.qt.io/development/download
